@@ -1,37 +1,42 @@
 
-const titulo = <h1>Esse é o título</h1>
+// Mostre os dados da aplicação, como aprensetado no vídeo
+// Não utilize CSS externo, use o style para mudar as cores
+// Se a situação estiver ativa pinte de verde, inativa vermelho
+// Se o gasto for maior que 10000 mostre uma mensagem
+
+const luana = {
+    cliente: 'Luana',
+    idade: 27,
+    compras: [
+        { nome: 'Notebook', preco: 'R$ 2500' },
+        { nome: 'Geladeira', preco: 'R$ 3000' },
+        { nome: 'Smartphone', preco: 'R$ 1500' },
+    ],
+    ativa: true,
+};
+
+const mario = {
+    cliente: 'Mario',
+    idade: 31,
+    compras: [
+        { nome: 'Notebook', preco: 'R$ 2500' },
+        { nome: 'Geladeira', preco: 'R$ 3000' },
+        { nome: 'Smartphone', preco: 'R$ 1500' },
+        { nome: 'Guitarra', preco: 'R$ 3500' },
+    ],
+    ativa: false,
+};
 
 function App() {
-    const nome = 'Breno';
-    const ramdom = Math.random();
-    const ativo = false;
-    function mostraNome(nome){
-         return nome;
-     }
-    const carro = {
-         marca: 'Ferrrari',
-         rodas: 4,
-    }
-    const estiloB = {
-         color: 'blue',
-        backgroundColor:'grey',
-    }
-
-    // Mostre os dados da aplicação, como aprensetado no vídeo
-    // Não utilize CSS externo, use o style para mudar as cores
-    // Se a situação estiver ativa pinte de verde, inativa vermelho
-    // Se o gasto for maior que 10000 mostre uma mensagem
+    const dados = luana;
+    const total = dados.compras.map(item => Number(item.preco.replace('R$ ', ''))).reduce((a, b) => a + b);
     return (
     <>
-        {titulo}
-        {mostraNome('Julia')}
-        <p style={estiloB}>{nome}</p>
-        <p>{ramdom}</p>
-        <p>{new Date().getFullYear()}</p>
-        <p>{ramdom * 100}</p>
-        <p>{carro.marca}</p>
-        <p className={ativo ? 'ativo' : 'false'}></p>
-
+        <p>Nome: {dados.cliente}</p>
+        <p>Idade: {dados.idade}</p>
+        <p>Situação da conta:<span style={{color: dados.ativa ? 'green' : 'red'}}> {dados.ativa ? 'Ativa' : 'Inativa'}</span></p>
+        <p>Total do gasto=  R$ {total} </p>
+        <p style={{ display: total >= 10000 ? 'block' : 'none'}}>Está gastando demais!!!!</p>
 
     </>
     );
