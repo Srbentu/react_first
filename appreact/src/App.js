@@ -1,15 +1,5 @@
 import React from 'react'
 import Produto from "./Produto";
-import produto from "./Produto";
-
-// Os links abaixo puxam dados de um produto em formato JSON
-// https://ranekapi.origamid.dev/json/api/produto/tablet
-// https://ranekapi.origamid.dev/json/api/produto/smartphone
-// https://ranekapi.origamid.dev/json/api/produto/notebook
-// Crie uma interface com 3 botões, um para cada produto.
-// Ao clicar no botão faça um fetch a api e mostre os dados do produto na tela.
-// Mostre apenas um produto por vez
-// Mostre a mensagem carregando... enquanto o fetch é realizado
 
 
 const App = () => {
@@ -18,7 +8,9 @@ const App = () => {
 
     async function handleClick(event) {
         setCarregando(true)
-        const response = await fetch(`https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`)
+        let name = event.target.innerText.toLowerCase().replace(" ", '-')
+        let nameFULL = `https://staging.vitat.com.br/wp-json/vitat/especialistas/posts?specialist=` + name
+        const response = await fetch(nameFULL)
         const json = await response.json()
         setDados(json)
         setCarregando(false)
@@ -26,9 +18,9 @@ const App = () => {
 
     return (
         <div>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>notebook</button>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>smartphone</button>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>tablet</button>
+            <button style={{margin:'.5rem'}} onClick={handleClick}>Monike Rodrigues</button>
+            <button style={{margin:'.5rem'}} onClick={handleClick}>Vanessa Losano</button>
+            <button style={{margin:'.5rem'}} onClick={handleClick}>Mayara Pastori</button>
             {carregando && <p>Carregando...</p> }
             {!carregando && dados && <Produto dados={dados}/>}
         </div>
