@@ -1,31 +1,41 @@
 import React from 'react'
-import Produto from "./Produto";
+import Produto from './Produto'
+
+// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
+// Defina o produto clicado como uma preferência do usuário no localStorage
+// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
 
 
 const App = () => {
-    const [dados,setDados] = React.useState(null)
-    const [carregando, setCarregando] = React.useState(null)
+    const [produto, setProduto] = React.useState(null)
 
-    async function handleClick(event) {
-        setCarregando(true)
-        let name = event.target.innerText.toLowerCase().replace(" ", '-')
-        let nameFULL = `https://staging.vitat.com.br/wp-json/vitat/especialistas/posts?specialist=` + name
-        const response = await fetch(nameFULL)
-        const json = await response.json()
-        setDados(json)
-        setCarregando(false)
+    React.useEffect(() => {
+        const produtoLocal = window.localStorage.getItem('produto')
+        if(produtoLocal != null) setProduto(produtoLocal)
+    },[])
+
+    React.useEffect(() => {
+        if(produto != null){
+            window.localStorage.setItem('produto', produto)
+        }
+    }, [produto])
+
+    async function handleClick({target}) {
+        setProduto(target.innerText)
     }
+
 
     return (
         <div>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>Monike Rodrigues</button>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>Vanessa Losano</button>
-            <button style={{margin:'.5rem'}} onClick={handleClick}>Mayara Pastori</button>
-            {carregando && <p>Carregando...</p> }
-            {!carregando && dados && <Produto dados={dados}/>}
+            <h1>Preferencia: {produto}</h1>
+            <button style={{margin: '.5rem'}} onClick={handleClick}>notebook</button>
+            <button style={{margin: '.5rem'}} onClick={handleClick}>smartphone</button>
+            <button style={{margin: '.5rem'}} onClick={handleClick}>tablet</button>
+            <Produto produto={produto}/>
         </div>
     )
-
 }
-
 export default App;
