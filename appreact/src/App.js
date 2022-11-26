@@ -1,40 +1,24 @@
 import React from 'react'
-import Produto from './Produto'
-
-// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
-// https://ranekapi.origamid.dev/json/api/produto/notebook
-// https://ranekapi.origamid.dev/json/api/produto/smartphone
-// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
-// Defina o produto clicado como uma preferência do usuário no localStorage
-// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
 
 
 const App = () => {
-    const [produto, setProduto] = React.useState(null)
+    const [comentarios, setComentarios] = React.useState(['banana','maca','uva'])
+    const [input, setInput] = React.useState('')
+    const inputElement = React.useRef()
 
-    React.useEffect(() => {
-        const produtoLocal = window.localStorage.getItem('produto')
-        if(produtoLocal != null) setProduto(produtoLocal)
-    },[])
-
-    React.useEffect(() => {
-        if(produto != null){
-            window.localStorage.setItem('produto', produto)
-        }
-    }, [produto])
-
-    async function handleClick({target}) {
-        setProduto(target.innerText)
+    function handleClick(){
+        setComentarios([...comentarios, input])
+        setInput('')
+        inputElement.current.focus()
     }
-
 
     return (
         <div>
-            <h1>Preferencia: {produto}</h1>
-            <button style={{margin: '.5rem'}} onClick={handleClick}>notebook</button>
-            <button style={{margin: '.5rem'}} onClick={handleClick}>smartphone</button>
-            <button style={{margin: '.5rem'}} onClick={handleClick}>tablet</button>
-            <Produto produto={produto}/>
+            <ul>
+                {comentarios.map(comentario => <li key={comentario}>{comentario}</li>)}
+            </ul>
+            <input ref={inputElement} type="text" value={input} onChange={({target}) => setInput(target.value)}/>
+            <button onClick={handleClick}>Enviar</button>
         </div>
     )
 }
