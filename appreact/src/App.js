@@ -2,23 +2,17 @@ import React from 'react'
 
 
 const App = () => {
-    const [comentarios, setComentarios] = React.useState(['banana','maca','uva'])
-    const [input, setInput] = React.useState('')
-    const inputElement = React.useRef()
+    const [contar, setContar] = React.useState(0)
+    const valor = React.useMemo(() =>{
+        const localItem = window.localStorage.getItem('produto')
+        console.log('aconteceu memo')
+        return localItem
+    }, [])
 
-    function handleClick(){
-        setComentarios([...comentarios, input])
-        setInput('')
-        inputElement.current.focus()
-    }
-
+    console.log(valor)
     return (
         <div>
-            <ul>
-                {comentarios.map(comentario => <li key={comentario}>{comentario}</li>)}
-            </ul>
-            <input ref={inputElement} type="text" value={input} onChange={({target}) => setInput(target.value)}/>
-            <button onClick={handleClick}>Enviar</button>
+            <button onClick={() => setContar(contar + 1)}>{contar}</button>
         </div>
     )
 }
