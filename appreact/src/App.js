@@ -1,19 +1,24 @@
-import React from 'react'
+import React from 'react';
+import Produto from './Produto';
+import { GlobalStorage } from './GlobalContext';
+import Limpar from "./Limpar";
+
+// Utilize o GlobalContext do exemplo anterior para puxar os dados da API abaixo:
+// https://ranekapi.origamid.dev/json/api/produto/
+// assim que o usuário acessar o app
+// coloque os dados da API no contexto global, dando acesso aos dados da mesma
+// defina uma função chamada limparDados que é responsável por zerar os dados de produto
+// e exponha essa função no contexto global
+
 
 
 const App = () => {
-    const [contar, setContar] = React.useState(0)
-    const valor = React.useMemo(() =>{
-        const localItem = window.localStorage.getItem('produto')
-        console.log('aconteceu memo')
-        return localItem
-    }, [])
-
-    console.log(valor)
     return (
-        <div>
-            <button onClick={() => setContar(contar + 1)}>{contar}</button>
-        </div>
-    )
-}
+        <GlobalStorage>
+            <Produto />
+            <Limpar/>
+        </GlobalStorage>
+    );
+};
+
 export default App;
